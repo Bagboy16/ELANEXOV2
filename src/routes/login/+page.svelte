@@ -1,7 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { text } from 'svelte/internal';
+		import Fa from 'svelte-fa/src/fa.svelte';
+	import { faHandcuffs } from '@fortawesome/free-solid-svg-icons';
 	export let form;
+	let loading = false
 	let errorClass,
 		inputClass = 'input-primary',
 		textError;
@@ -10,7 +13,13 @@
 		inputClass = 'input-error';
 		textError = 'text-red-500';
 	}
-	console.log(form);
+	$: console.log(form);
+		function handleSubmit() {
+		loading = true;
+		return async () => {
+			loading = false;
+		};
+	}
 </script>
 
 <div
@@ -82,7 +91,7 @@
 						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
 					/></svg
 				>
-				<span>Credenciales inválidas.{form?.error.message}</span>
+				<span>Credenciales inválidas.</span>
 			</div>
 		</div>
 	{/if}
@@ -94,7 +103,7 @@
 		class="bg-base-100 w-1/3 h-2/3 rounded-xl shadow-2xl flex flex-col items-center py-5 {errorClass} mb-5"
 	>
 		<div class="prose mb-10 mt-2">
-			<h1 class="text-3xl text-base-content">venís por más, pibe?</h1>
+			<h1 class="text-3xl text-base-content">Iniciar sesión</h1>
 		</div>
 		<div class="form-control w-full max-w-xs mb-2">
 			<label for="email" class="label">
@@ -124,6 +133,14 @@
 		</div>
 		<button class="btn btn-secondary" type="submit">Iniciar Sesión</button>
 	</form>
+		<div class="">
+		<button disabled={loading} class="btn btn-ghost hover:bg-transparent hover:text-accent-focus btn-sm text-lg">
+			<a href="/register" class="flex justify-center items-center">
+				<Fa class="mt-0.5" icon={faHandcuffs} />
+				<p class="ml-2">Registrarse</p>
+			</a>
+		</button>
+	</div>
 
 </div>
 

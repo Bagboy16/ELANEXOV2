@@ -2,7 +2,10 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { text } from 'svelte/internal';
+			import Fa from 'svelte-fa/src/fa.svelte';
+	import { faHandcuffs } from '@fortawesome/free-solid-svg-icons';
 	export let form;
+	let loading = false
 	let errorClass,
 		inputClass = 'input-primary',
 		textError;
@@ -16,6 +19,12 @@
 		goto('/login')
 	}
 	$: console.log(form);
+	function handleSubmit() {
+		loading = true;
+		return async () => {
+			loading = false;
+		}
+	};
 </script>
 
 <div
@@ -87,7 +96,7 @@
 						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
 					/></svg
 				>
-				<span>Verifique los datos. {form?.error.message}</span>
+				<span>Verifique los datos.</span>
 			</div>
 		</div>
 	{/if}
@@ -130,7 +139,14 @@
 		<button class="btn btn-secondary modal-open" type="submit">Registrarse</button>
 		<label for="registerModal" class="btn hidden">open modal</label>
 	</form>
-
+<div class="">
+		<button disabled={loading} class="btn btn-ghost hover:bg-transparent hover:text-accent-focus btn-sm text-lg">
+			<a href="/login" class="flex justify-center items-center">
+				<Fa class="mt-0.5" icon={faHandcuffs} />
+				<p class="ml-2">Iniciar Sesión</p>
+			</a>
+		</button>
+	</div>
 </div>
 
 <style>
