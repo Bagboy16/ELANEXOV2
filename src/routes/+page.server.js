@@ -21,7 +21,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 			content,
 			userid: profiles(id, username, avatar_url),
 			sent`
-	).range(0, 100);
+	).order('sent', { ascending: false }).range(0, 100);
 	console.log(msgs)
 	if (err) {
 		console.error(err);
