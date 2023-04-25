@@ -98,11 +98,9 @@
 		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
 	};
 	afterUpdate(() => {
-		console.log('afterUpdate');
 		if (messages) scrollToBottom(element);
 	});
 	$: if (messages && element) {
-		console.log('tick');
 		scrollToBottom(element);
 	}
 </script>
