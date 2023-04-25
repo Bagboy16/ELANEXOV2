@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+		<input type="checkbox" id="registerModal" class="modal-toggle" />
+		<div class="modal modal-bottom sm:modal-middle">
+			<div class="modal-box">
+				<h3 class="font-bold text-lg">Has sido anexado!</h3>
+				<p class="py-4">Recibirás un correo de verificación, este puede tardar, es que nuestros esclavos son baratos.</p>
+				<div class="modal-action">
+					<label for="registerModal" class="btn">Vale!</al>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

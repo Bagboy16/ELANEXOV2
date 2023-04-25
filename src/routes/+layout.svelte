@@ -1,0 +1,123 @@
+<script>
+	import '../app.postcss';
+	import { invalidate } from '$app/navigation'
+	import { onMount } from 'svelte'
+	
+	export let data
+
+	$: ({ supabase, session} = data)
+
+	onMount(()  => {
+		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth')
+			} 
+		})
+
+		return () => data.subscription.unsubscribe()
+	})
+</script>
+<div class="parent h-screen items-center bg-base-300">
+	<div class="prose w-full h-full bg-base-300 z-10">
+		<div class="sidebar w-full h-full relative z-0 flex flex-col justify-center items-center bg-base-300">
+			<div class="svg-container top-0 bottom-0 left-0 right-0 absolute -z-10 bg-base-100">
+				<svg
+					id="visual"
+					viewBox="0 0 400 900"
+					xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink"
+					version="1.1"
+                    class="h-full bg-base-100"
+					><defs
+						><linearGradient id="grad1_0" x1="0%" y1="100%" x2="100%" y2="0%"
+							><stop offset="30%" stop-color="#fbae3c" stop-opacity="1" /><stop
+								offset="70%"
+								stop-color="#fbae3c"
+								stop-opacity="1"
+							/></linearGradient
+						></defs
+					><defs
+						><linearGradient id="grad1_1" x1="0%" y1="100%" x2="100%" y2="0%"
+							><stop offset="30%" stop-color="#fbae3c" stop-opacity="1" /><stop
+								offset="70%"
+								stop-color="#001220"
+								stop-opacity="1"
+							/></linearGradient
+						></defs
+					><defs
+						><linearGradient id="grad2_0" x1="0%" y1="100%" x2="100%" y2="0%"
+							><stop offset="30%" stop-color="#fbae3c" stop-opacity="1" /><stop
+								offset="70%"
+								stop-color="#fbae3c"
+								stop-opacity="1"
+							/></linearGradient
+						></defs
+					><defs
+						><linearGradient id="grad2_1" x1="0%" y1="100%" x2="100%" y2="0%"
+							><stop offset="30%" stop-color="#001220" stop-opacity="1" /><stop
+								offset="70%"
+								stop-color="#fbae3c"
+								stop-opacity="1"
+							/></linearGradient
+						></defs
+					><g transform="translate(450, 900)"
+						><path
+                        class="path-secondary"
+							d="M-360 0C-331 -34.7 -301.9 -69.4 -291 -120.5C-280.1 -171.7 -287.3 -239.4 -254.6 -254.6C-221.8 -269.7 -149 -232.3 -99.9 -241.1C-50.8 -249.9 -25.4 -305 0 -360L0 0Z"
+							fill="#96446e"
+						/><path
+                        class="path-primary"
+							d="M-180 0C-165.5 -17.3 -151 -34.7 -145.5 -60.3C-140.1 -85.9 -143.7 -119.7 -127.3 -127.3C-110.9 -134.9 -74.5 -116.2 -49.9 -120.6C-25.4 -125 -12.7 -152.5 0 -180L0 0Z"
+							fill="#fbae3c"
+						/></g
+					><g transform="translate(0, 0)"
+						><path
+                        class="path-secondary"
+							d="M360 0C321.9 32.5 283.7 65 272.5 112.9C261.4 160.8 277.2 224.1 254.6 254.6C231.9 285 170.9 282.6 122.1 294.7C73.2 306.8 36.6 333.4 0 360L0 0Z"
+							fill="#96446e"
+						/><path
+                        class="path-primary"
+							d="M180 0C160.9 16.2 141.9 32.5 136.3 56.4C130.7 80.4 138.6 112.1 127.3 127.3C116 142.5 85.5 141.3 61 147.4C36.6 153.4 18.3 166.7 0 180L0 0Z"
+							fill="#fbae3c"
+						/></g
+					></svg
+				>
+			</div>
+            <div class="z-10 bg-base-100" >
+				<h1 class="mb-0">el anexo.</h1>
+				<i>aquí no se habla mal de chávez</i>
+			</div>
+		</div>
+	</div>
+	<slot />
+</div>
+
+
+
+<style>
+	.parent {
+		display: grid;
+		grid-template-columns: 1fr 4fr;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+		.chat-bubble {
+		max-width: 60%;
+	}
+
+	.msgArea::-webkit-scrollbar {
+		width: 0px;
+	}
+
+ .svg-container {
+    pointer-events: none; 
+  }
+  .path-primary{
+    fill: hsl(var(--p))
+  }
+
+  .path-secondary{
+    fill: hsl(var(--pf))
+  }
+</style>
