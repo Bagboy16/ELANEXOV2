@@ -22,7 +22,8 @@ export const actions = {
 			if (err instanceof AuthApiError && err.status !== 500) {
 				return fail(err.status, {
 					error: true,
-					message: err.message
+					message: err.message,
+					errorFull: err
 				});
 			}
 			throw error(err.status, {
