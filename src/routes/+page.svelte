@@ -18,7 +18,8 @@
 	$: if (messages) {
 		for (const prop in messages) {
 			const userId = messages[prop].userid.id;
-			if (downloadedAvatars[userId] && downloadedAvatars[userId].avatarUrl) {
+			if(messages[prop].userid.avatar_url){
+							if (downloadedAvatars[userId] && downloadedAvatars[userId].avatarUrl) {
 				messages[prop].userid.avatar_url = downloadedAvatars[userId].avatarUrl;
 			} else if (messages[prop].userid.avatar_url.startsWith('blob')) {
 				downloadedAvatars[userId] = {
@@ -47,6 +48,8 @@
 				}
 				downloadImage();
 			}
+			}
+
 		}
 	}
 	let message = '';
