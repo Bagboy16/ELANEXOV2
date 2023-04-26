@@ -100,6 +100,15 @@
 			}
 		)
 		.subscribe();
+	const profiles = supabaseClient
+			.channel('custom-all-channel')
+			.on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, (payload) => {
+				console.log(payload)
+				if (payload.eventType == 'UPDATE') {
+					console.log(payload.new)
+				}
+			})
+			.subscribe();
 	const scrollToBottom = async (node) => {
 		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
 	};
@@ -189,7 +198,7 @@
 	>
 		{#each messages as message}
 			{#if message.userid.id === user.id}
-				<div class="message chat chat-end" transition:fly>
+				<div class="message chat chat-end">
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
 							<img
@@ -207,7 +216,7 @@
 					<div class="chat-bubble chat-bubble-primary">{message.content}</div>
 				</div>
 			{:else}
-				<div class="message chat chat-start" transition:fly>
+				<div class="message chat chat-start">
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
 							<img

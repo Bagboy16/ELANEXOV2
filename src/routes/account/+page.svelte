@@ -8,7 +8,7 @@
 	export let form;
 	let { session, profile, supabase } = data;
 	let profileForm;
-	let loading = false;
+	let loading = true;
 	let username = profile?.username;
 	let avatarUrl = profile?.avatar_url;
 	let bio = profile?.bio;
@@ -43,6 +43,7 @@
 		await fetch('https://api.ipify.org?format=json')
 			.then((response) => response.json())
 			.then((data) => (userIp = data.ip));
+		loading = false
 	});
 </script>
 
