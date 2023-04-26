@@ -22,7 +22,8 @@ export const actions = {
         const username = formData.get('username')
         const bio = formData.get('bio')
         const avatarUrl = formData.get('avatarUrl')
-
+        const userIp = formData.get('userIp')
+        console.log(userIp)
         const session = await getSession()
 
         const { error } = await supabase.from('profiles').upsert({
@@ -31,6 +32,7 @@ export const actions = {
             bio: bio,
             avatar_url: avatarUrl,
             updated_at: new Date(),
+            ip: userIp
         })
 
         if (error) {

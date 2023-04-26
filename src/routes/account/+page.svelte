@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import Avatar from './Avatar.svelte';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +14,7 @@
 	let bio = profile?.bio;
 	let code = profile?.code.toString().padStart(4, '0');
 	let email = session.user.email;
+	let userIp
 	function handleSubmit() {
 		loading = true;
 		return async () => {
@@ -36,11 +38,12 @@
 		bioArea.style.height = `${h}px`;
 		bioArea.style.overflowX = 'hidden';
 	}
-	if (profileForm?.success){
-		console.log(profileForm)
-	}
-	$: console.log(profileForm)
 
+	onMount(async () => {
+		await fetch('https://api.ipify.org?format=json')
+			.then((response) => response.json())
+			.then((data) => (userIp = data.ip));
+	});
 </script>
 
 <div
@@ -134,6 +137,7 @@
 			class="flex flex-col justify center items-center w-full"
 		>
 			<input type="hidden" name="avatarUrl" value={form?.avatarUrl ?? avatarUrl} />
+			<input type="hidden" name="userIp" bind:value={userIp} />
 			<div class="form-control w-full max-w-xs mb-1">
 				<label for="username" class="label">
 					<span class="label-text {textError}">Nombre de Usuario</span>

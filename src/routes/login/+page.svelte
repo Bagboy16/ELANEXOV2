@@ -5,7 +5,6 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faHandcuffs } from '@fortawesome/free-solid-svg-icons';
 	export let form;
-	let userIp;
 
 	let loading = false;
 	let errorClass,
@@ -16,19 +15,12 @@
 		inputClass = 'input-error';
 		textError = 'text-red-500';
 	}
-	$: console.log(form);
 	function handleSubmit() {
 		loading = true;
 		return async () => {
 			loading = false;
 		};
 	}
-	onMount(async () => {
-		await fetch('https://api.ipify.org?format=json')
-			.then((response) => response.json())
-			.then((data) => (userIp = data.ip));
-	});
-	$: console.log(userIp)
 </script>
 
 <div
