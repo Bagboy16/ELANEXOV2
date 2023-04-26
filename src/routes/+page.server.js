@@ -16,7 +16,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 	if (!profile.username) {
 		throw redirect(303, '/account');
 	}
-	const { data: msgs, error: err } = await supabase.from('messages').select(
+	let { data: msgs, error: err } = await supabase.from('messages').select(
 		`id,
 			content,
 			userid: profiles(id, username, avatar_url),
@@ -25,6 +25,10 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 	console.log(msgs)
 	if (err) {
 		console.error(err);
+	}
+
+	if (msgs) {
+		msgs = msgs.reverse()
 	}
 
 	return { session, profile, msgs };

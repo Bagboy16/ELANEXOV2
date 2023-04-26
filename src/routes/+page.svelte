@@ -6,11 +6,13 @@
 	import { faPaperPlane, faRightFromBracket, faMessage } from '@fortawesome/free-solid-svg-icons';
 	import moment from 'moment-timezone';
 	import { enhance } from '$app/forms';
+	import { fly } from 'svelte/transition'
 	export let data;
 	let { session, profile, msgs, supabase } = data;
 	let element;
 	let user;
 	let messages = msgs ?? [];
+	let msgForm
 	if (session) {
 		user = session.user;
 	}
@@ -89,6 +91,11 @@
 				if (payload.eventType == 'UPDATE') {
 					messages[messages.findIndex((msg) => msg.id == payload.new.id)].content =
 						payload.new.content;
+				}
+				console.log(messages.length)
+				if (messages.length > 100) {
+							messages.reverse().pop();
+							messages.reverse();
 				}
 			}
 		)
@@ -182,7 +189,7 @@
 	>
 		{#each messages as message}
 			{#if message.userid.id === user.id}
-				<div class="message chat chat-end">
+				<div class="message chat chat-end" transition:fly>
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
 							<img
@@ -200,7 +207,7 @@
 					<div class="chat-bubble chat-bubble-primary">{message.content}</div>
 				</div>
 			{:else}
-				<div class="message chat chat-start">
+				<div class="message chat chat-start" transition:fly>
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
 							<img
@@ -233,8 +240,16 @@
 			style="overflow-x: hidden;"
 			on:input={resizeTextArea}
 			bind:value={message}
+			on:keydown={(e) => {
+					console.log(e.key)
+					if (e.which === 13 && !e.shiftKey){
+						e.preventDefault()
+						msgForm.requestSubmit()
+					}
+				}}
 		/>
 		<form
+		bind:this={msgForm}
 			action="?/sendMessage"
 			method="post"
 			use:enhance={({ form, data, action, cancel }) => {
