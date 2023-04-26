@@ -16,20 +16,19 @@ export const actions = {
 			email: body.email,
 			password: body.password
 		});
-
 		if (err) {
 			console.log(err);
 			if (err instanceof AuthApiError && err.status !== 500) {
 				return fail(err.status, {
 					error: true,
 					message: err.message,
-					errorFull: err
 				});
 			}
 			throw error(err.status, {
 				message: `Error del servidor, intente de nuevo. Si el error persiste, porfavor reportar al Administrador. Error: ${err.message}(${err.code})`
 			});
-        }
+		}
+		
         throw redirect(303, '/')
 	}
 };

@@ -36,9 +36,11 @@
 		bioArea.style.height = `${h}px`;
 		bioArea.style.overflowX = 'hidden';
 	}
-	console.log(form);
+	if (profileForm?.success){
+		console.log(profileForm)
+	}
+	$: console.log(profileForm)
 
-	$: console.log(avatarUrl);
 </script>
 
 <div

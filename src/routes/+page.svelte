@@ -18,38 +18,37 @@
 	$: if (messages) {
 		for (const prop in messages) {
 			const userId = messages[prop].userid.id;
-			if(messages[prop].userid.avatar_url){
-							if (downloadedAvatars[userId] && downloadedAvatars[userId].avatarUrl) {
-				messages[prop].userid.avatar_url = downloadedAvatars[userId].avatarUrl;
-			} else if (messages[prop].userid.avatar_url.startsWith('blob')) {
-				downloadedAvatars[userId] = {
-					avatarUrl: messages[prop].userid.avatar_url,
-					downloaded: true
-				};
-				continue;
-			} else {
-				async function downloadImage() {
-					try {
-						const { data, error: downloadError } = await supabase.storage
-							.from('avatars')
-							.download(messages[prop].userid.avatar_url);
+			if (messages[prop].userid.avatar_url) {
+				if (downloadedAvatars[userId] && downloadedAvatars[userId].avatarUrl) {
+					messages[prop].userid.avatar_url = downloadedAvatars[userId].avatarUrl;
+				} else if (messages[prop].userid.avatar_url.startsWith('blob')) {
+					downloadedAvatars[userId] = {
+						avatarUrl: messages[prop].userid.avatar_url,
+						downloaded: true
+					};
+					continue;
+				} else {
+					async function downloadImage() {
+						try {
+							const { data, error: downloadError } = await supabase.storage
+								.from('avatars')
+								.download(messages[prop].userid.avatar_url);
 
-						if (downloadError) {
-							throw downloadError;
-						}
-						const url = URL.createObjectURL(data);
-						messages[prop].userid.avatar_url = url;
-						downloadedAvatars[userId] = { avatarUrl: url, downloaded: true };
-					} catch (error) {
-						if (error instanceof Error) {
-							console.log('Error downloading image: ', error);
+							if (downloadError) {
+								throw downloadError;
+							}
+							const url = URL.createObjectURL(data);
+							messages[prop].userid.avatar_url = url;
+							downloadedAvatars[userId] = { avatarUrl: url, downloaded: true };
+						} catch (error) {
+							if (error instanceof Error) {
+								console.log('Error downloading image: ', error);
+							}
 						}
 					}
+					downloadImage();
 				}
-				downloadImage();
 			}
-			}
-
 		}
 	}
 	let message = '';
@@ -176,7 +175,7 @@
 	</div> -->
 
 	<div
-	bind:this={element}
+		bind:this={element}
 		id="chatDiv"
 		class="z-10 msg p-4 pb-5 overflow-y-auto top-0 h-4/5 scrollbar-thin scrollbar-thumb-red-700 relative"
 		style="scroll-behavior: smooth;"

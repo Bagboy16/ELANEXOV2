@@ -18,10 +18,6 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
 export const actions = {
     update: async ({ request, locals: { supabase, getSession } }) => {
-        let userIp;
-				await fetch('https://api.ipify.org?format=json')
-					.then((response) => response.json())
-					.then((data) => (userIp = data.ip));
         const formData = await request.formData()
         const username = formData.get('username')
         const bio = formData.get('bio')
@@ -35,7 +31,6 @@ export const actions = {
             bio: bio,
             avatar_url: avatarUrl,
             updated_at: new Date(),
-            ip: userIp
         })
 
         if (error) {
@@ -51,7 +46,7 @@ export const actions = {
             success: true,
             username,
             bio,
-            avatarUrl
+            avatarUrl,
         }
     },
     signout: async ({ locals: { supabase, getSession } }) => {
