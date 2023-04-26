@@ -92,7 +92,6 @@
 					messages[messages.findIndex((msg) => msg.id == payload.new.id)].content =
 						payload.new.content;
 				}
-				console.log(messages.length)
 				if (messages.length > 100) {
 							messages.reverse().pop();
 							messages.reverse();
@@ -103,7 +102,6 @@
 	const profiles = supabase
 			.channel('custom-all-channel')
 			.on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, (payload) => {
-				console.log(payload)
 				if (payload.eventType == 'UPDATE') {
 					console.log(payload.new)
 				}
@@ -250,7 +248,6 @@
 			on:input={resizeTextArea}
 			bind:value={message}
 			on:keydown={(e) => {
-					console.log(e.key)
 					if (e.which === 13 && !e.shiftKey){
 						e.preventDefault()
 						msgForm.requestSubmit()
