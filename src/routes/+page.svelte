@@ -100,7 +100,7 @@
 			}
 		)
 		.subscribe();
-	const profiles = supabaseClient
+	const profiles = supabase
 			.channel('custom-all-channel')
 			.on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, (payload) => {
 				console.log(payload)
